@@ -1,11 +1,12 @@
 package com.example.demoback.operation.factory;
 
+import com.example.demoback.exception.OperationException;
 import com.example.demoback.operation.dto.OperationDTO;
 import com.example.demoback.operation.utils.OperationUtils;
 
 public class OperationFactory {
 	
-	public static Long buildOperation (OperationDTO operationDTO) {
+	public static Long buildOperation (OperationDTO operationDTO) throws OperationException {
 		
 		switch (operationDTO.getOperationType()) {
 		case SUM:
@@ -15,7 +16,7 @@ public class OperationFactory {
 			return OperationUtils.rest(operationDTO.getOperating1(), operationDTO.getOperating2());
 
 		default:
-			return null;
+			throw new OperationException(OperationFactory.class, "Invalid Operatior");
 		}
 	}
 

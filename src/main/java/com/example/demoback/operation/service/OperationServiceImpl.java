@@ -3,6 +3,7 @@ package com.example.demoback.operation.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demoback.exception.OperationException;
 import com.example.demoback.operation.dto.OperationDTO;
 import com.example.demoback.operation.factory.OperationFactory;
 import com.example.demoback.trace.UtilsTrace;
@@ -14,7 +15,7 @@ public class OperationServiceImpl implements OperationService{
 	private UtilsTrace utilsTrace;
 
 	@Override
-	public Long doOperation(OperationDTO opertionDTO) {
+	public Long doOperation(OperationDTO opertionDTO) throws OperationException {
 		Long result = OperationFactory.buildOperation(opertionDTO);
 		this.utilsTrace.trace(result);
 		return result;
