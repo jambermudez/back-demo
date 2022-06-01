@@ -31,7 +31,7 @@ public class OperationController {
                     @ApiResponse(responseCode = "500", description = "Error Operation")})
 	@PostMapping
 	public Long operation (@RequestBody OperationDTO operationDTO) throws OperationException {
-		LOG.info("Execute OperationController.operation - operating1 " + operationDTO.getOperating1() + " operating 2 " + operationDTO.getOperating2() + " operator " +  operationDTO.getOperationType()  );
+		LOG.info("Execute OperationController.operation - operating1: " + operationDTO.getOperating1() + " operating2: " + operationDTO.getOperating2() + " operator " +  operationDTO.getOperationType()  );
 		return this.operationService.doOperation(operationDTO);
 	}
 	
