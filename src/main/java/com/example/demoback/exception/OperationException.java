@@ -13,6 +13,7 @@ public class OperationException extends Exception{
 	private Class<?> classException;
 	
 	public OperationException(Class<?> classException, String message) {
+		super(message);
 		this.setClassException(classException);
 	}
 
