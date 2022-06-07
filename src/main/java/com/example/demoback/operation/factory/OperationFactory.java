@@ -1,12 +1,13 @@
 package com.example.demoback.operation.factory;
 
+import com.example.demoback.exception.Operation400Exception;
 import com.example.demoback.exception.OperationException;
 import com.example.demoback.operation.dto.OperationDTO;
 import com.example.demoback.operation.utils.OperationUtils;
 
 public class OperationFactory {
 	
-	public static Long buildOperation (OperationDTO operationDTO) throws OperationException {
+	public static Long buildOperation (OperationDTO operationDTO) throws OperationException, Operation400Exception {
 		
 		switch (operationDTO.getOperationType()) {
 		case SUM:
@@ -14,9 +15,12 @@ public class OperationFactory {
 			
 		case REST:
 			return OperationUtils.rest(operationDTO.getOperating1(), operationDTO.getOperating2());
+			
+		case MULT:
+			throw new OperationException(OperationFactory.class, "Operation Not implemented yet");
 
 		default:
-			throw new OperationException(OperationFactory.class, "Invalid Operatior");
+			throw new Operation400Exception("Invalid Operatior");
 		}
 	}
 

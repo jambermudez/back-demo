@@ -4,6 +4,6 @@ public enum OperationType {
 	
 	SUM,
 	REST,
-	MULT
-
+	MULT,
+	DIV
 }
