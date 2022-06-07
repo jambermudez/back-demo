@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.example.demoback.DemoBackApplication;
 import com.example.demoback.operation.dto.OperationDTO;
 import com.example.demoback.operation.factory.OperationType;
-import com.example.demoback.operation.service.OperationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -53,5 +52,50 @@ class OperationControllerTest{
 		
 		assertEquals(expected, actual);
 	}
-
+	
+	@Test
+	void operation_400() throws Exception {
+		
+		OperationDTO operationDTO = new OperationDTO();
+		operationDTO.setOperating1(1L);
+		operationDTO.setOperating2(2L);
+		operationDTO.setOperationType(OperationType.DIV);
+		
+		//Act
+		ObjectMapper mapper = new ObjectMapper();
+		
+		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/")
+				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(operationDTO));
+		
+		ResultActions ra = this.mockMvc.perform(requestBuilder);
+		ra.andExpect(MockMvcResultMatchers.status().is4xxClientError());
+		
+		String errorActual = ra.andReturn().getResponse().getContentAsString();
+		
+		String errorExpected = "Invalid Operatior";
+		assertEquals(errorExpected, errorActual);
+	}
+	
+	@Test
+	void operation_Invalid_operator_500() throws Exception {
+		
+		OperationDTO operationDTO = new OperationDTO();
+		operationDTO.setOperating1(1L);
+		operationDTO.setOperating2(2L);
+		operationDTO.setOperationType(OperationType.MULT);
+		
+		//Act
+		ObjectMapper mapper = new ObjectMapper();
+		
+		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/")
+				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(operationDTO));
+		
+		ResultActions ra = this.mockMvc.perform(requestBuilder);
+		ra.andExpect(MockMvcResultMatchers.status().is5xxServerError());
+		
+		String errorActual = ra.andReturn().getResponse().getContentAsString();
+		
+		String errorExpected = "Operation Not implemented yet";
+		assertEquals(errorExpected, errorActual);
+	}
 }
